@@ -1,56 +1,68 @@
 package com.meghana;
+import java.sql.SQLException;
+import  java.util.*;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
  class MAIN {
-    public static void main(String args[]) {
-        ArrayList<Task> ar = new ArrayList<Task>();
+
+    public static void main(String args[]) throws SQLException {
+        Taskmanager taskmanager=new Taskmanager();
         while (true) {
-            System.out.println("1 for adding data");
-            System.out.println("2 for printing entire data");
-            System.out.println("3 for searching data");
-            System.out.println("4 for removing data");
-            System.out.println("5 for exit");
+            System.out.println("1 for adding data\n2 for printing entire data\n3 for searching data");
+            System.out.println( "4 for removing data\n5 displaying data by using status\n6 for exit");
+            System.out.println("Enter your option");
             Scanner sc = new Scanner(System.in);
-            int a = sc.nextInt();
-            switch (a) {
+            int option = sc.nextInt();
+            switch (option) {
                 case 1:
+                    System.out.println("Enter name");
+                    String name = sc.next();
+                    System.out.println("Enter description");
+                    String description = sc.next();
+                    System.out.println("Enter date");
+                    String date = sc.next();
+                    System.out.println("Enter status");
+                    Status status=Status.valueOf(sc.next());
 
-                    String fn = sc.next();
-                    String de = sc.next();
-                    String dob = sc.next();
-                    String ts = sc.next();
-                   Taskmanager.append( ar,fn,de,dob,ts);
-                    break;
+                    taskmanager.add(name, description, date, status);;
+                break;
                 case 2:
-                    for (Task obj : ar) {
-                        System.out.println(obj.name);
-                        System.out.println(obj.description);
-                        System.out.println(obj.dueDate);
-                        System.out.println(obj.Taskstatus);
-                    }
-
-                    break;
+                       List <Task> taskList=taskmanager.display();
+                       for (Task obj : taskList) {
+                           System.out.println("Id:"+obj.getTaskId());
+                           System.out.println("Name:"+obj.getTaskName());
+                           System.out.println("Description:"+obj.getTaskDesc());
+                           System.out.println("Date:"+obj. getDueDate());
+                           System.out.println("Status:"+obj. getStatus());
+                       }
+                break;
 
                 case 3:
-                    System.out.println("Enter name to search:");
-                    String string = sc.next();
-                  // Taskmanager.search(ar,string);
-                    if( Taskmanager.search(ar,string)) {
-                        System.out.println("Data Found");
-                    }
-                    else{
-                        System.out.println("No data found");
-                    }
-                    break;
+                    System.out.println("Enter id to search:");
+                          int id = sc.nextInt();
+
+                        System.out.println(taskmanager.FindById(id));
+
+                 break;
                 case 4:
-                    System.out.println("Enter name to remove:");
-                    String removablestring= sc.next();
-                    Taskmanager.delete(ar,removablestring);
-                    break;
+                    System.out.println("Enter id to remove:");
+                    int removableid= sc.nextInt();
+                    taskmanager.delete(removableid);
+                break;
                 case 5:
+                    System.out.println("Enter  status");
+                    String requiredStatus= sc.next();
+                   // Status s=Status.valueOf(requiredStatus);
+                    System.out.println(taskmanager.listByStatus(requiredStatus));
+
+
+                break;
+
+                case 6:
                     System.exit(0);
+                default:
+                    System.out.println("Incorrect option");
             }
 
         }

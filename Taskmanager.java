@@ -1,32 +1,86 @@
 package com.meghana;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.sql.SQLException;
+import java.util.List;
 
-public class Taskmanager
-{
-    public static void append(ArrayList<Task> ar,String fn,String de,String dob,String ts) {
-        ar.add(new Task(fn, de, dob, ts));
+public class Taskmanager {
+    private TaskRepository memory = new database();
+    //????
+    public static int id = 1;
+
+    public void add(String name, String description, String date, Status status) throws SQLException {
+        memory.addTask(new Task(id++, name, description, date, status));
+
     }
 
-    public static boolean search(ArrayList<Task> ar,String stringname)
-    {
-        int check = 0;
-        for (Task obj : ar) {
-            if (obj.name.matches(stringname)) check = 1;
-        }
-        if (check == 1)
-            return true;
-        else
-            return false;
-    }
-    public static void delete(ArrayList<Task> ar,String removablename)
-    {
-        for (Task obj : ar) {
-            if (obj.name.equals(removablename)) {
-                ar.remove(obj);
-            }}
+    public List<Task> display() throws SQLException {
+
+        return memory.display();
     }
 
 
+    public Task FindById(int id) throws SQLException {
+
+        Task n = (Task) memory.FindById(id);
+        return n;
+    }
+
+
+    public void delete(int del) throws SQLException {
+        memory.delete(del);
+    }
+
+    public Task listByStatus(String requiredStatus) throws SQLException {
+        return memory.listByStatus(requiredStatus);
+    }
 }
+
+
+    //  public ArrayList<Task> listByStatus(String status)
+       //  {
+       //
+    // }
+
+
+
+         /*   public   ArrayList<Task> list = new ArrayList<Task>();
+
+
+
+          Task task=
+           list.add(task);
+           memory.addTask(task);
+           }
+
+
+
+
+
+          public  boolean FindById(int id)
+          {
+
+
+          public void delete(int removableid)
+          {
+              for (Task obj : list) {
+                  if (obj.id == (removableid))
+                      list.remove(obj);
+              }
+          }
+
+
+
+     public List<Task> ListByStatus(String requiredstatus)
+     {
+         ArrayList<Task> arr = new ArrayList<>();
+         for (Task obj : list)
+         {
+             String stat = obj.getStatus().toString();
+             if (stat.matches(requiredstatus))
+                 arr.add(obj);
+
+         }
+         return arr;
+     }
+
+ }*/
